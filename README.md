@@ -32,11 +32,8 @@ To get the app running on your local machine, follow these steps:
 **src/** 
 Contains the source code for the project, including JavaScript, CSS, and HTML files.
 
-**src/components** 
-If present, would contain modular pieces of the application's UI (e.g., header, footer components).
-
-**src/utils** 
-A place for utility functions that can be shared across the project.
+**src/classes** 
+A place for classes that encapsulate logic of the application.
 
 **dist/** 
 The directory where the production-ready build of the app is located after running npm run build.

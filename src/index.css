@@ -113,7 +113,7 @@ body {
     line-height: 8vh;
 }
 
-.calc_row .operator {
+.calc_row .orange {
     background-color: #FF9B0A;
     display: flex;
     align-items: center;
