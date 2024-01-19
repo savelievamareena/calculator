@@ -37,24 +37,24 @@ export default class Display {
         if(Calculator.lastSymbol === "=" || Calculator.lastSymbol === "%") {
             this.setDomNodeContent(value);
         }else{
-            this.updateDomNodeContent(value);
+            if(stringToCheckLength.length <= 9) {
+                this.updateDomNodeContent(value);
+            }
         }
     }
     
     static updateDisplayFont(stringToCheckLength) {
-        if (stringToCheckLength.length <= 9) {
-            if (stringToCheckLength.length <= 4) {
-                this.styles.fontSize = "8vh";
-            }
-            
-            if (stringToCheckLength.length > 4 && stringToCheckLength.length <= 7) {
-                this.styles.fontSize = "6vh";
-            }
-            
-            if (stringToCheckLength.length > 7) {
-                this.styles.fontSize = "5vh";
-            }
+        if (stringToCheckLength.length <= 5) {
+            this.setFontToDefault();
         }
+        
+        if (stringToCheckLength.length > 5) {
+            this.styles.fontSize = "5vh";
+        }
+    }
+    
+    static setFontToDefault() {
+        this.styles.fontSize = "8vh";
     }
     
     static changePosNegSign(value) {

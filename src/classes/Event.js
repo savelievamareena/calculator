@@ -3,17 +3,15 @@ import Display from "./Display";
 
 export default class Event {
     static processNumberClick(value) {
-        const prevSymbol = Calculator.lastSymbol;
+        if(Calculator.start) {
+            Display.setFontToDefault();
+        }
         
         if (Display.getDomNodeContent() === 0) {
             Display.setDomNodeContent(value);
         } else {
-            if(Calculator.operands.length !== 0) {
-                if(isNaN(prevSymbol)) {
-                    Display.setDomNodeContent(value);
-                }else {
-                    Display.updateDisplay(value);
-                }
+            if(Calculator.regularOperators.includes(Calculator.lastSymbol) || Calculator.equalSign.includes(Calculator.lastSymbol)) {
+                Display.setDomNodeContent(value);
             }else {
                 Display.updateDisplay(value);
             }
@@ -24,8 +22,9 @@ export default class Event {
     }
     
     static processOperatorClick(value) {
-        if(value !== Calculator.lastSymbol) {
+        if(value !== Calculator.lastSymbol || value === "+/-") {
             Calculator.setLastSymbol(value);
+            Calculator.start = false;
             
             if (Display.getDomNodeContent() === 0) {
                 if(value === "+/-") {
@@ -37,6 +36,5 @@ export default class Event {
                 Calculator.processOperator(value);
             }
         }
-        Calculator.start = false;
     }
 }

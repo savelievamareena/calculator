@@ -23,12 +23,13 @@ export default class Calculator {
             switch (operator) {
                 case "AC":
                     this.reset();
-                    Display.updateDisplayFont(0)
+                    Display.setFontToDefault();
                     Display.setDomNodeContent(0);
                     break;
                 case "+/-":
                     if(Display.getDomNodeContent() === "-") {
                         Display.setDomNodeContent(0);
+                        Calculator.start = true;
                     }else if(Display.getDomNodeContent() !== 0) {
                         Display.setDomNodeContent(Display.getDomNodeContent() * -1)
                     }
@@ -48,15 +49,16 @@ export default class Calculator {
             
         } else {
             this.operands.push(Display.getDomNodeContent());
+            
             const result = this.calculate(this.operands);
             Display.updateDisplay(result);
-            Display.setDomNodeContent(result);
             this.reset();
         }
     }
     
     static reset() {
         this.operands = [];
+        Calculator.start = true;
     }
     
     static calculate() {
@@ -74,14 +76,11 @@ export default class Calculator {
             const result = this.operate(dataToCalculate[0], dataToCalculate[2], dataToCalculate[1]);
             dataToCalculate.splice(0, 3, result);
         }
-
-        return formatNumber(parseFloat(dataToCalculate[0]));
+        
+        return formatNumber(dataToCalculate[0]);
     }
     
     static operate(a, b, operator) {
-        a = parseFloat(a);
-        b = parseFloat(b);
-        
         switch (operator) {
             case "+": return a + b;
             case "-": return a - b;
