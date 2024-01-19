@@ -1,9 +1,12 @@
+import Calculator from "./Calculator";
+
 export default class Display {
     static domNode = null;
     static styles = null;
     
     static initialize() {
         this.domNode = document.querySelector(".display");
+        this.setDomNodeContent(0); //getting rid of spaces around initial value
         this.styles = this.domNode.style;
     }
     
@@ -16,28 +19,45 @@ export default class Display {
     }
     
     static getDomNodeContent() {
-        return this.domNode.textContent;
+        if(this.domNode.textContent === "-") {
+            return "-";
+        }else if(this.domNode.textContent === "0,") {
+            return "0,";
+        }else {
+            let result = this.domNode.textContent.replace(',', '.');
+            return parseFloat(result);
+        }
     }
     
-    static updateDisplayOnInput(value) {
-        if (this.domNode.textContent.length <= 9) {
-            if (this.domNode.textContent.length <= 4) {
-                this.styles.fontSize = "8vh";
-            }
-            
-            if (this.domNode.textContent.length > 4 && this.domNode.textContent.length <= 7) {
-                this.styles.fontSize = "6vh";
-            }
-            
-            if (this.domNode.textContent.length > 7) {
-                this.styles.fontSize = "5vh";
-            }
-            
+    static updateDisplay(value) {
+        let stringToCheckLength = Calculator.lastSymbol === "=" ? value : this.domNode.textContent;
+        
+        this.updateDisplayFont(stringToCheckLength);
+        
+        if(Calculator.lastSymbol === "=" || Calculator.lastSymbol === "%") {
+            this.setDomNodeContent(value);
+        }else{
             this.updateDomNodeContent(value);
         }
     }
     
+    static updateDisplayFont(stringToCheckLength) {
+        if (stringToCheckLength.length <= 9) {
+            if (stringToCheckLength.length <= 4) {
+                this.styles.fontSize = "8vh";
+            }
+            
+            if (stringToCheckLength.length > 4 && stringToCheckLength.length <= 7) {
+                this.styles.fontSize = "6vh";
+            }
+            
+            if (stringToCheckLength.length > 7) {
+                this.styles.fontSize = "5vh";
+            }
+        }
+    }
+    
     static changePosNegSign(value) {
-        this.domNode.textContent = value + this.getDomNodeContent();
+        this.domNode.textContent = value;
     }
 }
