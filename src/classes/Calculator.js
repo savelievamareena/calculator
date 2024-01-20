@@ -27,12 +27,7 @@ export default class Calculator {
                     Display.setDomNodeContent(0);
                     break;
                 case "+/-":
-                    if(Display.getDomNodeContent() === "-") {
-                        Display.setDomNodeContent(0);
-                        Calculator.start = true;
-                    }else if(Display.getDomNodeContent() !== 0) {
-                        Display.setDomNodeContent(Display.getDomNodeContent() * -1)
-                    }
+                    this.switchPosNegSign();
                     break;
                 case "%":
                     let percentValue = Display.getDomNodeContent() / 100;
@@ -46,13 +41,11 @@ export default class Calculator {
                 default:
                     throw Error(`Unknown ${operator}.`)
             }
-            
         } else {
             this.operands.push(Display.getDomNodeContent());
-            
             const result = this.calculate(this.operands);
-            Display.updateDisplay(result);
             this.reset();
+            Display.updateDisplay(result);
         }
     }
     
@@ -81,12 +74,41 @@ export default class Calculator {
     }
     
     static operate(a, b, operator) {
+        a = parseFloat(a);
+        b = parseFloat(b);
+        
+        let result;
         switch (operator) {
-            case "+": return a + b;
-            case "-": return a - b;
-            case "×": return a * b;
-            case "÷": return b !== 0 ? (a / b).toFixed(6) : 'Error'; //parseFloat(",", 6)
-            default: return 'Invalid Operator';
+            case "+":
+                result = a + b;
+                break
+            case "-":
+                result = a - b;
+                break
+            case "×":
+                result = a * b;
+                break
+            case "÷":
+                result = b !== 0 ? (a / b).toFixed(6) : 'Error'; //parseFloat(",", 6)
+                break
+            default: result = 'Invalid Operator';
+        }
+        
+        return result;
+    }
+    
+    static switchPosNegSign() {
+        const currValue = Display.getDomNodeContent();
+        if(isNaN(currValue)) {
+            Display.setDomNodeContent(0);
+            this.start = true;
+        }else {
+            if(currValue === 0) {
+                Display.setDomNodeContent("-");
+                this.start = true;
+            }else {
+                Display.setDomNodeContent(currValue * -1);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 import Calculator from "./Calculator";
+import formatNumber from "../utils/formatNumber";
 
 export default class Display {
     static domNode = null;
@@ -11,7 +12,7 @@ export default class Display {
     }
     
     static setDomNodeContent(value) {
-        this.domNode.textContent = value;
+        this.domNode.textContent = formatNumber(value);
     }
     
     static updateDomNodeContent(value) {
@@ -30,8 +31,7 @@ export default class Display {
     }
     
     static updateDisplay(value) {
-        let stringToCheckLength = Calculator.lastSymbol === "=" ? value : this.domNode.textContent;
-        
+        let stringToCheckLength = Calculator.start ? value : this.domNode.textContent;
         this.updateDisplayFont(stringToCheckLength);
         
         if(Calculator.lastSymbol === "=" || Calculator.lastSymbol === "%") {
@@ -55,9 +55,5 @@ export default class Display {
     
     static setFontToDefault() {
         this.styles.fontSize = "8vh";
-    }
-    
-    static changePosNegSign(value) {
-        this.domNode.textContent = value;
     }
 }

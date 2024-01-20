@@ -22,19 +22,17 @@ export default class Event {
     }
     
     static processOperatorClick(value) {
-        if(value !== Calculator.lastSymbol || value === "+/-") {
-            Calculator.setLastSymbol(value);
-            Calculator.start = false;
-            
-            if (Display.getDomNodeContent() === 0) {
-                if(value === "+/-") {
-                    Display.changePosNegSign("-"); //todo move this from Event to Calculator
-                }else if(value === ",") {
-                    Display.updateDisplay(value);
+        if(value === "+/-") {
+            Calculator.processOperator(value);
+        }else {
+            if(value !== Calculator.lastSymbol) {
+                Calculator.setLastSymbol(value);
+                
+                if (!Calculator.start || value === ",") {
+                    Calculator.processOperator(value);
                 }
-            }else {
-                Calculator.processOperator(value);
             }
         }
+        Calculator.start = false;
     }
 }
