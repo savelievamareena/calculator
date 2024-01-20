@@ -1,5 +1,6 @@
 import Display from "./Display";
 import formatNumber from "../utils/formatNumber";
+import operate from "../utils/operate";
 
 export default class Calculator {
     static operators = ["+", "-", "÷", "×"];
@@ -16,7 +17,11 @@ export default class Calculator {
     static processOperator(operator) {
         if(this.operators.includes(operator)) {
             this.operands.push(Display.getDomNodeContent());
-            this.operands.push(operator);
+            if(this.operators.includes(this.operands[this.operands.length - 1])) {
+                this.operands[this.operands.length - 1] = operator; //getting sure only the last of the clicked operators will be assumed
+            }else {
+                this.operands.push(operator);
+            }
         } else {
             this.operands.push(Display.getDomNodeContent());
             const result = this.calculate(this.operands);
@@ -37,21 +42,14 @@ export default class Calculator {
                 break;
             case "%":
                 let percentValue = Display.getDomNodeContent() / 100;
-                Display.updateDisplay(percentValue);
+                Display.setDomNodeContent(formatNumber(percentValue));
                 break;
             case ",":
-                if(Display.getDomNodeContent() % 1 === 0) {
-                    Display.updateDisplay(action);
-                }
+                this.processDecimalPoint();
                 break;
             default:
                 throw Error(`Unknown ${action}.`)
         }
-    }
-    
-    static reset() {
-        this.operands = [];
-        Calculator.start = true;
     }
     
     static calculate() {
@@ -59,41 +57,18 @@ export default class Calculator {
         
         for (let i = 1; i < dataToCalculate.length; i += 2) {
             if (dataToCalculate[i] === "×" || dataToCalculate[i] === "÷") {
-                const result = this.operate(dataToCalculate[i - 1], dataToCalculate[i + 1], dataToCalculate[i]);
+                const result = operate(dataToCalculate[i - 1], dataToCalculate[i + 1], dataToCalculate[i]);
                 dataToCalculate.splice(i - 1, 3, result);
                 i -= 2;
             }
         }
         
         while (dataToCalculate.length > 1) {
-            const result = this.operate(dataToCalculate[0], dataToCalculate[2], dataToCalculate[1]);
+            const result = operate(dataToCalculate[0], dataToCalculate[2], dataToCalculate[1]);
             dataToCalculate.splice(0, 3, result);
         }
         
         return formatNumber(dataToCalculate[0]);
-    }
-    
-    static operate(a, b, operator) {
-        a = parseFloat(a);
-        b = parseFloat(b);
-        
-        let result;
-        switch (operator) {
-            case "+":
-                result = a + b;
-                break
-            case "-":
-                result = a - b;
-                break
-            case "×":
-                result = a * b;
-                break
-            case "÷":
-                result = b !== 0 ? (a / b).toFixed(6) : 'Error'; //parseFloat(",", 6)
-                break
-            default: result = 'Invalid Operator';
-        }
-        return result;
     }
     
     static switchPosNegSign() {
@@ -109,5 +84,20 @@ export default class Calculator {
                 Display.setDomNodeContent(currValue * -1);
             }
         }
+    }
+    
+    static processDecimalPoint() {
+        if(isNaN(Calculator.lastSymbol)) {
+            Display.setDomNodeContent("0,");
+        }else {
+            if(Display.getDomNodeContent() % 1 === 0) {
+                Display.updateDisplay(",");
+            }
+        }
+    }
+    
+    static reset() {
+        this.operands = [];
+        Calculator.start = true;
     }
 }

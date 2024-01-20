@@ -16,7 +16,6 @@
         "curly": "error",
         "no-eval": "error",
         "no-implied-eval": "error",
-        "no-shadow": "error",
-        "quotes": ["error", "double"]
+        "no-shadow": "error"
     }
 }

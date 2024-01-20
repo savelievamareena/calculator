@@ -42,8 +42,8 @@ export default class Event {
         }else {
             if(action !== Calculator.lastSymbol) {
                 if (!Calculator.start || action === ",") {
-                    Calculator.setLastSymbol(action);
                     Calculator.processAction(action);
+                    Calculator.setLastSymbol(action);
                 }
             }
         }
