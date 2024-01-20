@@ -10,7 +10,7 @@ export default class Event {
         if (Display.getDomNodeContent() === 0) {
             Display.setDomNodeContent(value);
         } else {
-            if(Calculator.regularOperators.includes(Calculator.lastSymbol) || Calculator.equalSign.includes(Calculator.lastSymbol)) {
+            if(Calculator.operators.includes(Calculator.lastSymbol) || Calculator.equalSign.includes(Calculator.lastSymbol)) {
                 Display.setDomNodeContent(value);
             }else {
                 Display.updateDisplay(value);
@@ -22,17 +22,32 @@ export default class Event {
     }
     
     static processOperatorClick(value) {
-        if(value === "+/-") {
-            Calculator.processOperator(value);
+        if(value !== Calculator.lastSymbol) {
+            Calculator.setLastSymbol(value);
+            
+            if(!Calculator.start) {
+                Calculator.processOperator(value);
+            }
+        }
+    }
+    
+    static processActionClick(action) {
+        if(Calculator.start) {
+            Display.setFontToDefault();
+        }
+        
+        if(action === "+/-" || action === "AC") {
+            Calculator.processAction(action);
+            Calculator.setLastSymbol(action);
         }else {
-            if(value !== Calculator.lastSymbol) {
-                Calculator.setLastSymbol(value);
-                
-                if (!Calculator.start || value === ",") {
-                    Calculator.processOperator(value);
+            if(action !== Calculator.lastSymbol) {
+                if (!Calculator.start || action === ",") {
+                    Calculator.setLastSymbol(action);
+                    Calculator.processAction(action);
                 }
             }
         }
+        
         Calculator.start = false;
     }
 }

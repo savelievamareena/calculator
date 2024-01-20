@@ -2,12 +2,11 @@ import Display from "./Display";
 import formatNumber from "../utils/formatNumber";
 
 export default class Calculator {
-    static regularOperators = ["+", "-", "÷", "×"];
-    static specialOperators = ["AC", "+/-", "%", ","];
+    static operators = ["+", "-", "÷", "×"];
     static equalSign = ["="];
     
     static operands = [];
-    static lastSymbol = null;
+    static lastSymbol = 0;
     static start = true;
     
     static setLastSymbol(value) {
@@ -15,37 +14,38 @@ export default class Calculator {
     }
     
     static processOperator(operator) {
-        if(this.regularOperators.includes(operator)) {
+        if(this.operators.includes(operator)) {
             this.operands.push(Display.getDomNodeContent());
             this.operands.push(operator);
-            
-        } else if(this.specialOperators.includes(operator)) {
-            switch (operator) {
-                case "AC":
-                    this.reset();
-                    Display.setFontToDefault();
-                    Display.setDomNodeContent(0);
-                    break;
-                case "+/-":
-                    this.switchPosNegSign();
-                    break;
-                case "%":
-                    let percentValue = Display.getDomNodeContent() / 100;
-                    Display.updateDisplay(percentValue);
-                    break;
-                case ",":
-                    if(Display.getDomNodeContent() % 1 === 0) {
-                        Display.updateDisplay(operator);
-                    }
-                    break;
-                default:
-                    throw Error(`Unknown ${operator}.`)
-            }
         } else {
             this.operands.push(Display.getDomNodeContent());
             const result = this.calculate(this.operands);
             this.reset();
             Display.updateDisplay(result);
+        }
+    }
+    
+    static processAction(action) {
+        switch (action) {
+            case "AC":
+                this.reset();
+                Display.setFontToDefault();
+                Display.setDomNodeContent(0);
+                break;
+            case "+/-":
+                this.switchPosNegSign();
+                break;
+            case "%":
+                let percentValue = Display.getDomNodeContent() / 100;
+                Display.updateDisplay(percentValue);
+                break;
+            case ",":
+                if(Display.getDomNodeContent() % 1 === 0) {
+                    Display.updateDisplay(action);
+                }
+                break;
+            default:
+                throw Error(`Unknown ${action}.`)
         }
     }
     
@@ -93,7 +93,6 @@ export default class Calculator {
                 break
             default: result = 'Invalid Operator';
         }
-        
         return result;
     }
     
