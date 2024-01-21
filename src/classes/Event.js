@@ -43,11 +43,17 @@ export default class Event {
             if(action !== Calculator.lastSymbol) {
                 if (!Calculator.start || action === ",") {
                     Calculator.processAction(action);
-                    Calculator.setLastSymbol(action);
+                    if(action !== "%") {
+                        Calculator.setLastSymbol(action);
+                    }
                 }
             }
         }
         
         Calculator.start = false;
+    }
+    
+    static modeSwitch(toggle, rootElement) {
+        rootElement.classList.toggle("light-theme");
     }
 }

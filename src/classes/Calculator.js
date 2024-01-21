@@ -41,8 +41,11 @@ export default class Calculator {
                 this.switchPosNegSign();
                 break;
             case "%":
-                let percentValue = Display.getDomNodeContent() / 100;
-                Display.setDomNodeContent(formatNumber(percentValue));
+                if(!this.operators.includes(this.operands[this.operands.length - 1])) {
+                    let percentValue = Display.getDomNodeContent() / 100;
+                    Display.setDomNodeContent(formatNumber(percentValue));
+                    Calculator.lastSymbol = action;
+                }
                 break;
             case ",":
                 this.processDecimalPoint();

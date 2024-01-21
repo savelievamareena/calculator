@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const operators = document.querySelectorAll(".calc_body .operator");
     const actions = document.querySelectorAll(".calc_body .action");
     
+    const toggle = document.querySelector("#toggle");
+    let rootElement = document.body;
+    
     Display.initialize();
     
     numbers.forEach(number => {
@@ -29,4 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
             Event.processActionClick(operatorValue);
         });
     })
+    
+    toggle.addEventListener("click", function() {
+        Event.modeSwitch(toggle, rootElement);
+    });
 });
