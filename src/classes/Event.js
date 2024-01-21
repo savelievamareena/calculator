@@ -53,6 +53,14 @@ export default class Event {
         Calculator.start = false;
     }
     
+    static resetOperationButton(operators) {
+        operators.forEach(activeButton => {
+            if (activeButton.classList.contains("active")) {
+                activeButton.classList.remove("active");
+            }
+        });
+    }
+    
     static modeSwitch(toggle, rootElement) {
         rootElement.classList.toggle("light-theme");
     }

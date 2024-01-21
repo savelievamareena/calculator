@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     numbers.forEach(number => {
         number.addEventListener("click", function() {
             const numValue = number.dataset.key;
+            
+            Event.resetOperationButton(operators);
             Event.processNumberClick(numValue);
         });
     });
@@ -22,6 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
     operators.forEach(operator => {
         operator.addEventListener("click", function() {
             const operatorValue = operator.dataset.key;
+            
+            Event.resetOperationButton(operators);
+            operator.classList.add("active");
+            
             Event.processOperatorClick(operatorValue);
         });
     });
@@ -29,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
     actions.forEach(action => {
         action.addEventListener("click", function() {
             const operatorValue = action.dataset.key;
+            
+            Event.resetOperationButton(operators);
             Event.processActionClick(operatorValue);
         });
     })

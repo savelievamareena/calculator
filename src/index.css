@@ -4,8 +4,6 @@
     --header-body-bg: #505050;
     --button-top-bg: #646464;
     --button-reg-bg: #7D7D7D;
-    --button-operator: #FF9B0A;
-    --border-color: #000000;
     --outer-shadow: #646464;
     --inner-glow: #E6E6E6
 }
@@ -16,8 +14,6 @@
     --header-body-bg: #c4c2c2;
     --button-top-bg: #969595;
     --button-reg-bg: #eae9e9;
-    --button-operator: #FF9B0A;
-    --border-color: #000000;
     --outer-shadow: #313030;
     --inner-glow: #ffffff
 }
@@ -40,7 +36,7 @@ body {
 
 .calculator {
     width: 20em;
-    border: 1px solid var(--border-color);
+    border: 1px solid #000000;
     border-radius: 1.25em;
     box-shadow: 0 1.5em 3em var(--outer-shadow);
     position: relative;
@@ -144,9 +140,13 @@ body {
 }
 
 .calc_row .orange {
-    background-color: var(--button-operator);
+    background-color: #FF9B0A;
     display: flex;
     align-items: center;
+}
+
+.calc_row .button.orange.operator.active {
+    background-color: #F8B759;
 }
 
 .wide {
@@ -160,7 +160,7 @@ body {
     margin-bottom: 20px;
     border-radius: 10px;
     cursor: pointer;
-    border: 1px solid var(--border-color);
+    border: 1px solid #000000;
 }
 
 @media only screen and (max-width: 320px) {
