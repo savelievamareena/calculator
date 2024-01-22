@@ -92,7 +92,7 @@ export default class Calculator {
                 Display.setDomNodeContent("-");
                 this.start = true;
             } else {
-                Display.setDomNodeContent(currValue * -1);
+                Display.setDomNodeContent(formatNumber(currValue * -1));
             }
         }
     }
