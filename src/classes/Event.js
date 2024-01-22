@@ -5,11 +5,8 @@ export default class Event {
     static processNumberClick(value) { //processing clicks on numbers
         if (Calculator.start) {
             Display.setFontToDefault();
-        }
-
-        if (Display.getDomNodeContent() === 0) {
             Display.setDomNodeContent(value);
-        } else {
+        }else {
             if (
                 Calculator.operators.includes(Calculator.lastSymbol) ||
                 Calculator.equalSign.includes(Calculator.lastSymbol)
@@ -54,7 +51,9 @@ export default class Event {
             }
         }
 
-        Calculator.start = false;
+        if(action !== "AC") {
+            Calculator.start = false;
+        }
     }
 
     static resetOperationButton(operators) { //making active operation button (it becomes lighter after click) become regular color again)
