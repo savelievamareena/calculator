@@ -1,6 +1,6 @@
 # Project Documentation
 
-This is the main documentation file for the project, detailing the setup, build instructions, and folder structure.
+This is the main documentation file for the project, explaining the setup, build instructions, and folder structure.
 
 ## Task
 
